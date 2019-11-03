@@ -2,11 +2,11 @@ const pkg = require('./package')
 const basePlugins = require('./rollup.plugins.js')
 
 const pluginBabel = require('rollup-plugin-babel')({
-  ignore: /node_modules\/(!emittery).*/,
-  plugins: ['external-helpers', 'transform-object-assign', 'transform-regenerator'],
+  ignore: ["/node_modules\/(!emittery).*/"],
+  plugins: ['@babel/plugin-external-helpers', '@babel/plugin-transform-object-assign', '@babel/transform-regenerator'],
   presets: [
     [
-      'env',
+      '@babel/env',
       {
         modules: false,
         targets: {
@@ -35,11 +35,11 @@ const pluginBabelCjs = require('rollup-plugin-babel')({
 })
 
 const pluginBabelEs = require('rollup-plugin-babel')({
-  ignore: /node_modules\/(!emittery).*/,
-  plugins: ['external-helpers', 'transform-object-assign'],
+  ignore: ["/node_modules\/(!emittery).*/"],
+  plugins: ['@babel/plugin-external-helpers', '@babel/plugin-transform-object-assign'],
   presets: [
     [
-      'env',
+      '@babel/env',
       {
         modules: false,
         targets: {
@@ -82,7 +82,7 @@ function umdBuild () {
  */
 function umdProductionBuild () {
   const pluginReplace = require('rollup-plugin-replace')({
-    'process.env.NODE_ENV': JSON.stringify('production')
+    'process.env.NODE_ENV': JSON.stringify('development')
   })
 
   const pluginUglify = require('rollup-plugin-uglify')()

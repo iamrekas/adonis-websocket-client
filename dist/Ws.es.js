@@ -1,640 +1,701 @@
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
 
-var asyncToGenerator = function (fn) {
+  return _typeof(obj);
+}
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
   return function () {
-    var gen = fn.apply(this, arguments);
+    var self = this,
+        args = arguments;
     return new Promise(function (resolve, reject) {
-      function step(key, arg) {
-        try {
-          var info = gen[key](arg);
-          var value = info.value;
-        } catch (error) {
-          reject(error);
-          return;
-        }
+      var gen = fn.apply(self, args);
 
-        if (info.done) {
-          resolve(value);
-        } else {
-          return Promise.resolve(value).then(function (value) {
-            step("next", value);
-          }, function (err) {
-            step("throw", err);
-          });
-        }
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
       }
 
-      return step("next");
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
     });
   };
-};
+}
 
-var classCallCheck = function (instance, Constructor) {
+function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
   }
-};
+}
 
-var createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
   }
+}
 
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
 
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
       }
     }
-  }
 
-  return target;
-};
+    return target;
+  };
 
-var inherits = function (subClass, superClass) {
+  return _extends.apply(this, arguments);
+}
+
+function _inherits(subClass, superClass) {
   if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    throw new TypeError("Super expression must either be null or a function");
   }
 
   subClass.prototype = Object.create(superClass && superClass.prototype, {
     constructor: {
       value: subClass,
-      enumerable: false,
       writable: true,
       configurable: true
     }
   });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-};
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
 
-var possibleConstructorReturn = function (self, call) {
-  if (!self) {
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
     throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
   }
 
-  return call && (typeof call === "object" || typeof call === "function") ? call : self;
-};
+  return self;
+}
 
-var toConsumableArray = function (arr) {
+function _possibleConstructorReturn(self, call) {
+  if (call && (typeof call === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return _assertThisInitialized(self);
+}
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
   if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
 
     return arr2;
-  } else {
-    return Array.from(arr);
   }
-};
+}
+
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
 
 var anyMap = new WeakMap();
 var eventsMap = new WeakMap();
 var resolvedPromise = Promise.resolve();
 
 function assertEventName(eventName) {
-	if (typeof eventName !== 'string') {
-		throw new TypeError('eventName must be a string');
-	}
+  if (typeof eventName !== 'string') {
+    throw new TypeError('eventName must be a string');
+  }
 }
 
 function assertListener(listener) {
-	if (typeof listener !== 'function') {
-		throw new TypeError('listener must be a function');
-	}
+  if (typeof listener !== 'function') {
+    throw new TypeError('listener must be a function');
+  }
 }
 
 function getListeners(instance, eventName) {
-	var events = eventsMap.get(instance);
-	if (!events.has(eventName)) {
-		events.set(eventName, new Set());
-	}
+  var events = eventsMap.get(instance);
 
-	return events.get(eventName);
+  if (!events.has(eventName)) {
+    events.set(eventName, new Set());
+  }
+
+  return events.get(eventName);
 }
 
-var Emittery = function () {
-	function Emittery() {
-		classCallCheck(this, Emittery);
+var Emittery =
+/*#__PURE__*/
+function () {
+  function Emittery() {
+    _classCallCheck(this, Emittery);
 
-		anyMap.set(this, new Set());
-		eventsMap.set(this, new Map());
-	}
+    anyMap.set(this, new Set());
+    eventsMap.set(this, new Map());
+  }
 
-	createClass(Emittery, [{
-		key: 'on',
-		value: function on(eventName, listener) {
-			assertEventName(eventName);
-			assertListener(listener);
-			getListeners(this, eventName).add(listener);
-			return this.off.bind(this, eventName, listener);
-		}
-	}, {
-		key: 'off',
-		value: function off(eventName, listener) {
-			assertEventName(eventName);
-			assertListener(listener);
-			getListeners(this, eventName).delete(listener);
-		}
-	}, {
-		key: 'once',
-		value: function once(eventName) {
-			var _this = this;
+  _createClass(Emittery, [{
+    key: "on",
+    value: function on(eventName, listener) {
+      assertEventName(eventName);
+      assertListener(listener);
+      getListeners(this, eventName).add(listener);
+      return this.off.bind(this, eventName, listener);
+    }
+  }, {
+    key: "off",
+    value: function off(eventName, listener) {
+      assertEventName(eventName);
+      assertListener(listener);
+      getListeners(this, eventName)["delete"](listener);
+    }
+  }, {
+    key: "once",
+    value: function once(eventName) {
+      var _this = this;
 
-			return new Promise(function (resolve) {
-				assertEventName(eventName);
-				var off = _this.on(eventName, function (data) {
-					off();
-					resolve(data);
-				});
-			});
-		}
-	}, {
-		key: 'emit',
-		value: function () {
-			var _ref = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(eventName, eventData) {
-				var _this2 = this;
+      return new Promise(function (resolve) {
+        assertEventName(eventName);
 
-				var listeners, anyListeners, staticListeners, staticAnyListeners;
-				return regeneratorRuntime.wrap(function _callee3$(_context3) {
-					while (1) {
-						switch (_context3.prev = _context3.next) {
-							case 0:
-								assertEventName(eventName);
+        var off = _this.on(eventName, function (data) {
+          off();
+          resolve(data);
+        });
+      });
+    }
+  }, {
+    key: "emit",
+    value: function () {
+      var _emit = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3(eventName, eventData) {
+        var listeners, anyListeners, staticListeners, staticAnyListeners;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                assertEventName(eventName);
+                listeners = getListeners(this, eventName);
+                anyListeners = anyMap.get(this);
+                staticListeners = _toConsumableArray(listeners);
+                staticAnyListeners = _toConsumableArray(anyListeners);
+                _context3.next = 7;
+                return resolvedPromise;
 
-								listeners = getListeners(this, eventName);
-								anyListeners = anyMap.get(this);
-								staticListeners = [].concat(toConsumableArray(listeners));
-								staticAnyListeners = [].concat(toConsumableArray(anyListeners));
-								_context3.next = 7;
-								return resolvedPromise;
+              case 7:
+                return _context3.abrupt("return", Promise.all([].concat(_toConsumableArray(staticListeners.map(
+                /*#__PURE__*/
+                function () {
+                  var _ref = _asyncToGenerator(
+                  /*#__PURE__*/
+                  regeneratorRuntime.mark(function _callee(listener) {
+                    return regeneratorRuntime.wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            if (!listeners.has(listener)) {
+                              _context.next = 2;
+                              break;
+                            }
 
-							case 7:
-								return _context3.abrupt('return', Promise.all([].concat(toConsumableArray(staticListeners.map(function () {
-									var _ref2 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(listener) {
-										return regeneratorRuntime.wrap(function _callee$(_context) {
-											while (1) {
-												switch (_context.prev = _context.next) {
-													case 0:
-														if (!listeners.has(listener)) {
-															_context.next = 2;
-															break;
-														}
+                            return _context.abrupt("return", listener(eventData));
 
-														return _context.abrupt('return', listener(eventData));
+                          case 2:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee);
+                  }));
 
-													case 2:
-													case 'end':
-														return _context.stop();
-												}
-											}
-										}, _callee, _this2);
-									}));
+                  return function (_x3) {
+                    return _ref.apply(this, arguments);
+                  };
+                }())), _toConsumableArray(staticAnyListeners.map(
+                /*#__PURE__*/
+                function () {
+                  var _ref2 = _asyncToGenerator(
+                  /*#__PURE__*/
+                  regeneratorRuntime.mark(function _callee2(listener) {
+                    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                      while (1) {
+                        switch (_context2.prev = _context2.next) {
+                          case 0:
+                            if (!anyListeners.has(listener)) {
+                              _context2.next = 2;
+                              break;
+                            }
 
-									return function (_x3) {
-										return _ref2.apply(this, arguments);
-									};
-								}())), toConsumableArray(staticAnyListeners.map(function () {
-									var _ref3 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(listener) {
-										return regeneratorRuntime.wrap(function _callee2$(_context2) {
-											while (1) {
-												switch (_context2.prev = _context2.next) {
-													case 0:
-														if (!anyListeners.has(listener)) {
-															_context2.next = 2;
-															break;
-														}
+                            return _context2.abrupt("return", listener(eventName, eventData));
 
-														return _context2.abrupt('return', listener(eventName, eventData));
+                          case 2:
+                          case "end":
+                            return _context2.stop();
+                        }
+                      }
+                    }, _callee2);
+                  }));
 
-													case 2:
-													case 'end':
-														return _context2.stop();
-												}
-											}
-										}, _callee2, _this2);
-									}));
+                  return function (_x4) {
+                    return _ref2.apply(this, arguments);
+                  };
+                }())))));
 
-									return function (_x4) {
-										return _ref3.apply(this, arguments);
-									};
-								}())))));
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
 
-							case 8:
-							case 'end':
-								return _context3.stop();
-						}
-					}
-				}, _callee3, this);
-			}));
+      function emit(_x, _x2) {
+        return _emit.apply(this, arguments);
+      }
 
-			function emit(_x, _x2) {
-				return _ref.apply(this, arguments);
-			}
+      return emit;
+    }()
+  }, {
+    key: "emitSerial",
+    value: function () {
+      var _emitSerial = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee4(eventName, eventData) {
+        var listeners, anyListeners, staticListeners, staticAnyListeners, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, listener, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _listener;
 
-			return emit;
-		}()
-	}, {
-		key: 'emitSerial',
-		value: function () {
-			var _ref4 = asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(eventName, eventData) {
-				var listeners, anyListeners, staticListeners, staticAnyListeners, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, listener, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _listener;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                assertEventName(eventName);
+                listeners = getListeners(this, eventName);
+                anyListeners = anyMap.get(this);
+                staticListeners = _toConsumableArray(listeners);
+                staticAnyListeners = _toConsumableArray(anyListeners);
+                _context4.next = 7;
+                return resolvedPromise;
 
-				return regeneratorRuntime.wrap(function _callee4$(_context4) {
-					while (1) {
-						switch (_context4.prev = _context4.next) {
-							case 0:
-								assertEventName(eventName);
+              case 7:
+                /* eslint-disable no-await-in-loop */
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _iteratorError = undefined;
+                _context4.prev = 10;
+                _iterator = staticListeners[Symbol.iterator]();
 
-								listeners = getListeners(this, eventName);
-								anyListeners = anyMap.get(this);
-								staticListeners = [].concat(toConsumableArray(listeners));
-								staticAnyListeners = [].concat(toConsumableArray(anyListeners));
-								_context4.next = 7;
-								return resolvedPromise;
+              case 12:
+                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                  _context4.next = 20;
+                  break;
+                }
 
-							case 7:
-								/* eslint-disable no-await-in-loop */
-								_iteratorNormalCompletion = true;
-								_didIteratorError = false;
-								_iteratorError = undefined;
-								_context4.prev = 10;
-								_iterator = staticListeners[Symbol.iterator]();
+                listener = _step.value;
 
-							case 12:
-								if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-									_context4.next = 20;
-									break;
-								}
+                if (!listeners.has(listener)) {
+                  _context4.next = 17;
+                  break;
+                }
 
-								listener = _step.value;
+                _context4.next = 17;
+                return listener(eventData);
 
-								if (!listeners.has(listener)) {
-									_context4.next = 17;
-									break;
-								}
+              case 17:
+                _iteratorNormalCompletion = true;
+                _context4.next = 12;
+                break;
 
-								_context4.next = 17;
-								return listener(eventData);
+              case 20:
+                _context4.next = 26;
+                break;
 
-							case 17:
-								_iteratorNormalCompletion = true;
-								_context4.next = 12;
-								break;
+              case 22:
+                _context4.prev = 22;
+                _context4.t0 = _context4["catch"](10);
+                _didIteratorError = true;
+                _iteratorError = _context4.t0;
 
-							case 20:
-								_context4.next = 26;
-								break;
+              case 26:
+                _context4.prev = 26;
+                _context4.prev = 27;
 
-							case 22:
-								_context4.prev = 22;
-								_context4.t0 = _context4['catch'](10);
-								_didIteratorError = true;
-								_iteratorError = _context4.t0;
+                if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                  _iterator["return"]();
+                }
 
-							case 26:
-								_context4.prev = 26;
-								_context4.prev = 27;
+              case 29:
+                _context4.prev = 29;
 
-								if (!_iteratorNormalCompletion && _iterator.return) {
-									_iterator.return();
-								}
+                if (!_didIteratorError) {
+                  _context4.next = 32;
+                  break;
+                }
 
-							case 29:
-								_context4.prev = 29;
+                throw _iteratorError;
 
-								if (!_didIteratorError) {
-									_context4.next = 32;
-									break;
-								}
+              case 32:
+                return _context4.finish(29);
 
-								throw _iteratorError;
+              case 33:
+                return _context4.finish(26);
 
-							case 32:
-								return _context4.finish(29);
+              case 34:
+                _iteratorNormalCompletion2 = true;
+                _didIteratorError2 = false;
+                _iteratorError2 = undefined;
+                _context4.prev = 37;
+                _iterator2 = staticAnyListeners[Symbol.iterator]();
 
-							case 33:
-								return _context4.finish(26);
+              case 39:
+                if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+                  _context4.next = 47;
+                  break;
+                }
 
-							case 34:
-								_iteratorNormalCompletion2 = true;
-								_didIteratorError2 = false;
-								_iteratorError2 = undefined;
-								_context4.prev = 37;
-								_iterator2 = staticAnyListeners[Symbol.iterator]();
+                _listener = _step2.value;
 
-							case 39:
-								if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-									_context4.next = 47;
-									break;
-								}
+                if (!anyListeners.has(_listener)) {
+                  _context4.next = 44;
+                  break;
+                }
 
-								_listener = _step2.value;
+                _context4.next = 44;
+                return _listener(eventName, eventData);
 
-								if (!anyListeners.has(_listener)) {
-									_context4.next = 44;
-									break;
-								}
+              case 44:
+                _iteratorNormalCompletion2 = true;
+                _context4.next = 39;
+                break;
 
-								_context4.next = 44;
-								return _listener(eventName, eventData);
+              case 47:
+                _context4.next = 53;
+                break;
 
-							case 44:
-								_iteratorNormalCompletion2 = true;
-								_context4.next = 39;
-								break;
+              case 49:
+                _context4.prev = 49;
+                _context4.t1 = _context4["catch"](37);
+                _didIteratorError2 = true;
+                _iteratorError2 = _context4.t1;
 
-							case 47:
-								_context4.next = 53;
-								break;
+              case 53:
+                _context4.prev = 53;
+                _context4.prev = 54;
 
-							case 49:
-								_context4.prev = 49;
-								_context4.t1 = _context4['catch'](37);
-								_didIteratorError2 = true;
-								_iteratorError2 = _context4.t1;
+                if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                  _iterator2["return"]();
+                }
 
-							case 53:
-								_context4.prev = 53;
-								_context4.prev = 54;
+              case 56:
+                _context4.prev = 56;
 
-								if (!_iteratorNormalCompletion2 && _iterator2.return) {
-									_iterator2.return();
-								}
+                if (!_didIteratorError2) {
+                  _context4.next = 59;
+                  break;
+                }
 
-							case 56:
-								_context4.prev = 56;
+                throw _iteratorError2;
 
-								if (!_didIteratorError2) {
-									_context4.next = 59;
-									break;
-								}
+              case 59:
+                return _context4.finish(56);
 
-								throw _iteratorError2;
+              case 60:
+                return _context4.finish(53);
 
-							case 59:
-								return _context4.finish(56);
+              case 61:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this, [[10, 22, 26, 34], [27,, 29, 33], [37, 49, 53, 61], [54,, 56, 60]]);
+      }));
 
-							case 60:
-								return _context4.finish(53);
+      function emitSerial(_x5, _x6) {
+        return _emitSerial.apply(this, arguments);
+      }
 
-							case 61:
-							case 'end':
-								return _context4.stop();
-						}
-					}
-				}, _callee4, this, [[10, 22, 26, 34], [27,, 29, 33], [37, 49, 53, 61], [54,, 56, 60]]);
-			}));
+      return emitSerial;
+    }()
+  }, {
+    key: "onAny",
+    value: function onAny(listener) {
+      assertListener(listener);
+      anyMap.get(this).add(listener);
+      return this.offAny.bind(this, listener);
+    }
+  }, {
+    key: "offAny",
+    value: function offAny(listener) {
+      assertListener(listener);
+      anyMap.get(this)["delete"](listener);
+    }
+  }, {
+    key: "clearListeners",
+    value: function clearListeners(eventName) {
+      if (typeof eventName === 'string') {
+        getListeners(this, eventName).clear();
+      } else {
+        anyMap.get(this).clear();
+        var _iteratorNormalCompletion3 = true;
+        var _didIteratorError3 = false;
+        var _iteratorError3 = undefined;
 
-			function emitSerial(_x5, _x6) {
-				return _ref4.apply(this, arguments);
-			}
+        try {
+          for (var _iterator3 = eventsMap.get(this).values()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+            var listeners = _step3.value;
+            listeners.clear();
+          }
+        } catch (err) {
+          _didIteratorError3 = true;
+          _iteratorError3 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+              _iterator3["return"]();
+            }
+          } finally {
+            if (_didIteratorError3) {
+              throw _iteratorError3;
+            }
+          }
+        }
+      }
+    }
+  }, {
+    key: "listenerCount",
+    value: function listenerCount(eventName) {
+      if (typeof eventName === 'string') {
+        return anyMap.get(this).size + getListeners(this, eventName).size;
+      }
 
-			return emitSerial;
-		}()
-	}, {
-		key: 'onAny',
-		value: function onAny(listener) {
-			assertListener(listener);
-			anyMap.get(this).add(listener);
-			return this.offAny.bind(this, listener);
-		}
-	}, {
-		key: 'offAny',
-		value: function offAny(listener) {
-			assertListener(listener);
-			anyMap.get(this).delete(listener);
-		}
-	}, {
-		key: 'clearListeners',
-		value: function clearListeners(eventName) {
-			if (typeof eventName === 'string') {
-				getListeners(this, eventName).clear();
-			} else {
-				anyMap.get(this).clear();
-				var _iteratorNormalCompletion3 = true;
-				var _didIteratorError3 = false;
-				var _iteratorError3 = undefined;
+      if (typeof eventName !== 'undefined') {
+        assertEventName(eventName);
+      }
 
-				try {
-					for (var _iterator3 = eventsMap.get(this).values()[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-						var listeners = _step3.value;
+      var count = anyMap.get(this).size;
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
 
-						listeners.clear();
-					}
-				} catch (err) {
-					_didIteratorError3 = true;
-					_iteratorError3 = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion3 && _iterator3.return) {
-							_iterator3.return();
-						}
-					} finally {
-						if (_didIteratorError3) {
-							throw _iteratorError3;
-						}
-					}
-				}
-			}
-		}
-	}, {
-		key: 'listenerCount',
-		value: function listenerCount(eventName) {
-			if (typeof eventName === 'string') {
-				return anyMap.get(this).size + getListeners(this, eventName).size;
-			}
+      try {
+        for (var _iterator4 = eventsMap.get(this).values()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var value = _step4.value;
+          count += value.size;
+        }
+      } catch (err) {
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+            _iterator4["return"]();
+          }
+        } finally {
+          if (_didIteratorError4) {
+            throw _iteratorError4;
+          }
+        }
+      }
 
-			if (typeof eventName !== 'undefined') {
-				assertEventName(eventName);
-			}
+      return count;
+    }
+  }]);
 
-			var count = anyMap.get(this).size;
-
-			var _iteratorNormalCompletion4 = true;
-			var _didIteratorError4 = false;
-			var _iteratorError4 = undefined;
-
-			try {
-				for (var _iterator4 = eventsMap.get(this).values()[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-					var value = _step4.value;
-
-					count += value.size;
-				}
-			} catch (err) {
-				_didIteratorError4 = true;
-				_iteratorError4 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion4 && _iterator4.return) {
-						_iterator4.return();
-					}
-				} finally {
-					if (_didIteratorError4) {
-						throw _iteratorError4;
-					}
-				}
-			}
-
-			return count;
-		}
-	}]);
-	return Emittery;
-}();
-
-// Subclass used to encourage TS users to type their events.
+  return Emittery;
+}(); // Subclass used to encourage TS users to type their events.
 
 
-Emittery.Typed = function (_Emittery) {
-	inherits(_class, _Emittery);
+Emittery.Typed =
+/*#__PURE__*/
+function (_Emittery) {
+  _inherits(_class, _Emittery);
 
-	function _class() {
-		classCallCheck(this, _class);
-		return possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
-	}
+  function _class() {
+    _classCallCheck(this, _class);
 
-	return _class;
+    return _possibleConstructorReturn(this, _getPrototypeOf(_class).apply(this, arguments));
+  }
+
+  return _class;
 }(Emittery);
-Object.defineProperty(Emittery.Typed, 'Typed', {
-	enumerable: false,
-	value: undefined
-});
 
+Object.defineProperty(Emittery.Typed, 'Typed', {
+  enumerable: false,
+  value: undefined
+});
 var emittery = Emittery;
 
 var strictUriEncode = function strictUriEncode(str) {
   return encodeURIComponent(str).replace(/[!'()*]/g, function (x) {
-    return '%' + x.charCodeAt(0).toString(16).toUpperCase();
+    return "%".concat(x.charCodeAt(0).toString(16).toUpperCase());
   });
 };
 
 function encoderForArrayFormat(options) {
-	switch (options.arrayFormat) {
-		case 'index':
-			return function (key) {
-				return function (result, value) {
-					var index = result.length;
-					if (value === undefined) {
-						return result;
-					}
+  switch (options.arrayFormat) {
+    case 'index':
+      return function (key) {
+        return function (result, value) {
+          var index = result.length;
 
-					if (value === null) {
-						return [].concat(toConsumableArray(result), [[encode(key, options), '[', index, ']'].join('')]);
-					}
+          if (value === undefined) {
+            return result;
+          }
 
-					return [].concat(toConsumableArray(result), [[encode(key, options), '[', encode(index, options), ']=', encode(value, options)].join('')]);
-				};
-			};
+          if (value === null) {
+            return [].concat(_toConsumableArray(result), [[encode(key, options), '[', index, ']'].join('')]);
+          }
 
-		case 'bracket':
-			return function (key) {
-				return function (result, value) {
-					if (value === undefined) {
-						return result;
-					}
+          return [].concat(_toConsumableArray(result), [[encode(key, options), '[', encode(index, options), ']=', encode(value, options)].join('')]);
+        };
+      };
 
-					if (value === null) {
-						return [].concat(toConsumableArray(result), [[encode(key, options), '[]'].join('')]);
-					}
+    case 'bracket':
+      return function (key) {
+        return function (result, value) {
+          if (value === undefined) {
+            return result;
+          }
 
-					return [].concat(toConsumableArray(result), [[encode(key, options), '[]=', encode(value, options)].join('')]);
-				};
-			};
+          if (value === null) {
+            return [].concat(_toConsumableArray(result), [[encode(key, options), '[]'].join('')]);
+          }
 
-		case 'comma':
-			return function (key) {
-				return function (result, value, index) {
-					if (value === null || value === undefined || value.length === 0) {
-						return result;
-					}
+          return [].concat(_toConsumableArray(result), [[encode(key, options), '[]=', encode(value, options)].join('')]);
+        };
+      };
 
-					if (index === 0) {
-						return [[encode(key, options), '=', encode(value, options)].join('')];
-					}
+    case 'comma':
+      return function (key) {
+        return function (result, value, index) {
+          if (value === null || value === undefined || value.length === 0) {
+            return result;
+          }
 
-					return [[result, encode(value, options)].join(',')];
-				};
-			};
+          if (index === 0) {
+            return [[encode(key, options), '=', encode(value, options)].join('')];
+          }
 
-		default:
-			return function (key) {
-				return function (result, value) {
-					if (value === undefined) {
-						return result;
-					}
+          return [[result, encode(value, options)].join(',')];
+        };
+      };
 
-					if (value === null) {
-						return [].concat(toConsumableArray(result), [encode(key, options)]);
-					}
+    default:
+      return function (key) {
+        return function (result, value) {
+          if (value === undefined) {
+            return result;
+          }
 
-					return [].concat(toConsumableArray(result), [[encode(key, options), '=', encode(value, options)].join('')]);
-				};
-			};
-	}
+          if (value === null) {
+            return [].concat(_toConsumableArray(result), [encode(key, options)]);
+          }
+
+          return [].concat(_toConsumableArray(result), [[encode(key, options), '=', encode(value, options)].join('')]);
+        };
+      };
+  }
 }
 
 function encode(value, options) {
-	if (options.encode) {
-		return options.strict ? strictUriEncode(value) : encodeURIComponent(value);
-	}
+  if (options.encode) {
+    return options.strict ? strictUriEncode(value) : encodeURIComponent(value);
+  }
 
-	return value;
+  return value;
 }
 
 var stringify = function stringify(object, options) {
-	if (!object) {
-		return '';
-	}
+  if (!object) {
+    return '';
+  }
 
-	options = _extends({
-		encode: true,
-		strict: true,
-		arrayFormat: 'none'
-	}, options);
+  options = _extends({
+    encode: true,
+    strict: true,
+    arrayFormat: 'none'
+  }, options);
+  var formatter = encoderForArrayFormat(options);
+  var keys = Object.keys(object);
 
-	var formatter = encoderForArrayFormat(options);
-	var keys = Object.keys(object);
+  if (options.sort !== false) {
+    keys.sort(options.sort);
+  }
 
-	if (options.sort !== false) {
-		keys.sort(options.sort);
-	}
+  return keys.map(function (key) {
+    var value = object[key];
 
-	return keys.map(function (key) {
-		var value = object[key];
+    if (value === undefined) {
+      return '';
+    }
 
-		if (value === undefined) {
-			return '';
-		}
+    if (value === null) {
+      return encode(key, options);
+    }
 
-		if (value === null) {
-			return encode(key, options);
-		}
+    if (Array.isArray(value)) {
+      return value.reduce(formatter(key), []).join('&');
+    }
 
-		if (Array.isArray(value)) {
-			return value.reduce(formatter(key), []).join('&');
-		}
-
-		return encode(key, options) + '=' + encode(value, options);
-	}).filter(function (x) {
-		return x.length > 0;
-	}).join('&');
+    return encode(key, options) + '=' + encode(value, options);
+  }).filter(function (x) {
+    return x.length > 0;
+  }).join('&');
 };
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -647,57 +708,101 @@ var wsp_browser = createCommonjsModule(function (module, exports) {
   !function (t, e) {
     module.exports = e();
   }(commonjsGlobal, function () {
+
     var t = "function" == typeof Symbol && "symbol" == _typeof(Symbol.iterator) ? function (t) {
-      return typeof t === 'undefined' ? 'undefined' : _typeof(t);
+      return _typeof(t);
     } : function (t) {
-      return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t === 'undefined' ? 'undefined' : _typeof(t);
+      return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : _typeof(t);
     },
-        e = { OPEN: 0, JOIN: 1, LEAVE: 2, JOIN_ACK: 3, JOIN_ERROR: 4, LEAVE_ACK: 5, LEAVE_ERROR: 6, EVENT: 7, PING: 8, PONG: 9 };function o(t, e, o) {
+        e = {
+      OPEN: 0,
+      JOIN: 1,
+      LEAVE: 2,
+      JOIN_ACK: 3,
+      JOIN_ERROR: 4,
+      LEAVE_ACK: 5,
+      LEAVE_ERROR: 6,
+      EVENT: 7,
+      PING: 8,
+      PONG: 9
+    };
+
+    function o(t, e, o) {
       return o.forEach(function (t) {
         !function (t, e) {
           if (!t || "string" != typeof t) throw new Error(e);
         }(e[t], "expected " + t + " to be a valid string");
-      }), { t: t, d: e };
-    }var n = {};return Object.keys(e).forEach(function (o) {
+      }), {
+        t: t,
+        d: e
+      };
+    }
+
+    var n = {};
+    return Object.keys(e).forEach(function (o) {
       var i = o.toLowerCase().replace(/^\w|_(\w)/g, function (t, e) {
         return e ? e.toUpperCase() : t.toUpperCase();
-      });n["is" + i + "Packet"] = function (n) {
+      });
+
+      n["is" + i + "Packet"] = function (n) {
         return !(!n || "object" !== (void 0 === n ? "undefined" : t(n)) || n.t !== e[o]);
       };
     }), n.hasTopic = function (t) {
       return !!(t && t.d && t.d.topic);
     }, n.isValidJoinPacket = n.hasTopic, n.isValidLeavePacket = n.hasTopic, n.isValidEventPacket = n.hasTopic, n.joinPacket = function (t) {
-      return o(e.JOIN, { topic: t }, ["topic"]);
+      return o(e.JOIN, {
+        topic: t
+      }, ["topic"]);
     }, n.leavePacket = function (t) {
-      return o(e.LEAVE, { topic: t }, ["topic"]);
+      return o(e.LEAVE, {
+        topic: t
+      }, ["topic"]);
     }, n.joinAckPacket = function (t) {
-      return o(e.JOIN_ACK, { topic: t }, ["topic"]);
+      return o(e.JOIN_ACK, {
+        topic: t
+      }, ["topic"]);
     }, n.joinErrorPacket = function (t, n) {
-      return o(e.JOIN_ERROR, { topic: t, message: n }, ["topic", "message"]);
+      return o(e.JOIN_ERROR, {
+        topic: t,
+        message: n
+      }, ["topic", "message"]);
     }, n.leaveAckPacket = function (t) {
-      return o(e.LEAVE_ACK, { topic: t }, ["topic"]);
+      return o(e.LEAVE_ACK, {
+        topic: t
+      }, ["topic"]);
     }, n.leaveErrorPacket = function (t, n) {
-      return o(e.LEAVE_ERROR, { topic: t, message: n }, ["topic", "message"]);
+      return o(e.LEAVE_ERROR, {
+        topic: t,
+        message: n
+      }, ["topic", "message"]);
     }, n.eventPacket = function (t, n, i) {
-      return o(e.EVENT, { topic: t, event: n, data: i = i || "" }, ["topic", "event"]);
+      return o(e.EVENT, {
+        topic: t,
+        event: n,
+        data: i = i || ""
+      }, ["topic", "event"]);
     }, n.pingPacket = function () {
-      return { t: e.PING };
+      return {
+        t: e.PING
+      };
     }, n.pongPacket = function () {
-      return { t: e.PONG };
-    }, _extends({ codes: e }, n);
+      return {
+        t: e.PONG
+      };
+    }, _extends({
+      codes: e
+    }, n);
   });
 });
 
 /**
  * Helpers.
  */
-
 var s = 1000;
 var m = s * 60;
 var h = m * 60;
 var d = h * 24;
 var y = d * 365.25;
-
 /**
  * Parse or format the given `val`.
  *
@@ -714,15 +819,17 @@ var y = d * 365.25;
 
 var ms = function ms(val, options) {
   options = options || {};
-  var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
+
+  var type = _typeof(val);
+
   if (type === 'string' && val.length > 0) {
     return parse$1(val);
   } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ? fmtLong(val) : fmtShort(val);
+    return options["long"] ? fmtLong(val) : fmtShort(val);
   }
+
   throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val));
 };
-
 /**
  * Parse the given `str` and return milliseconds.
  *
@@ -731,17 +838,23 @@ var ms = function ms(val, options) {
  * @api private
  */
 
+
 function parse$1(str) {
   str = String(str);
+
   if (str.length > 100) {
     return;
   }
+
   var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
+
   if (!match) {
     return;
   }
+
   var n = parseFloat(match[1]);
   var type = (match[2] || 'ms').toLowerCase();
+
   switch (type) {
     case 'years':
     case 'year':
@@ -749,39 +862,44 @@ function parse$1(str) {
     case 'yr':
     case 'y':
       return n * y;
+
     case 'days':
     case 'day':
     case 'd':
       return n * d;
+
     case 'hours':
     case 'hour':
     case 'hrs':
     case 'hr':
     case 'h':
       return n * h;
+
     case 'minutes':
     case 'minute':
     case 'mins':
     case 'min':
     case 'm':
       return n * m;
+
     case 'seconds':
     case 'second':
     case 'secs':
     case 'sec':
     case 's':
       return n * s;
+
     case 'milliseconds':
     case 'millisecond':
     case 'msecs':
     case 'msec':
     case 'ms':
       return n;
+
     default:
       return undefined;
   }
 }
-
 /**
  * Short format for `ms`.
  *
@@ -790,22 +908,26 @@ function parse$1(str) {
  * @api private
  */
 
+
 function fmtShort(ms) {
   if (ms >= d) {
     return Math.round(ms / d) + 'd';
   }
+
   if (ms >= h) {
     return Math.round(ms / h) + 'h';
   }
+
   if (ms >= m) {
     return Math.round(ms / m) + 'm';
   }
+
   if (ms >= s) {
     return Math.round(ms / s) + 's';
   }
+
   return ms + 'ms';
 }
-
 /**
  * Long format for `ms`.
  *
@@ -814,21 +936,24 @@ function fmtShort(ms) {
  * @api private
  */
 
+
 function fmtLong(ms) {
   return plural(ms, d, 'day') || plural(ms, h, 'hour') || plural(ms, m, 'minute') || plural(ms, s, 'second') || ms + ' ms';
 }
-
 /**
  * Pluralization helper.
  */
+
 
 function plural(ms, n, name) {
   if (ms < n) {
     return;
   }
+
   if (ms < n * 1.5) {
     return Math.floor(ms / n) + ' ' + name;
   }
+
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
@@ -839,21 +964,18 @@ var debug = createCommonjsModule(function (module, exports) {
    *
    * Expose `debug()` as the module.
    */
-
   exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
   exports.coerce = coerce;
   exports.disable = disable;
   exports.enable = enable;
   exports.enabled = enabled;
   exports.humanize = ms;
-
   /**
    * The currently active debug mode names, and names to skip.
    */
 
   exports.names = [];
   exports.skips = [];
-
   /**
    * Map of special "%n" handling functions, for the debug "format" argument.
    *
@@ -861,13 +983,11 @@ var debug = createCommonjsModule(function (module, exports) {
    */
 
   exports.formatters = {};
-
   /**
    * Previous log timestamp.
    */
 
   var prevTime;
-
   /**
    * Select a color.
    * @param {String} namespace
@@ -886,7 +1006,6 @@ var debug = createCommonjsModule(function (module, exports) {
 
     return exports.colors[Math.abs(hash) % exports.colors.length];
   }
-
   /**
    * Create a debugger with the given `namespace`.
    *
@@ -895,24 +1014,22 @@ var debug = createCommonjsModule(function (module, exports) {
    * @api public
    */
 
-  function createDebug(namespace) {
 
+  function createDebug(namespace) {
     function debug() {
       // disabled?
       if (!debug.enabled) return;
+      var self = debug; // set `diff` timestamp
 
-      var self = debug;
-
-      // set `diff` timestamp
       var curr = +new Date();
       var ms$$1 = curr - (prevTime || curr);
       self.diff = ms$$1;
       self.prev = prevTime;
       self.curr = curr;
-      prevTime = curr;
+      prevTime = curr; // turn the `arguments` into a proper Array
 
-      // turn the `arguments` into a proper Array
       var args = new Array(arguments.length);
+
       for (var i = 0; i < args.length; i++) {
         args[i] = arguments[i];
       }
@@ -922,29 +1039,28 @@ var debug = createCommonjsModule(function (module, exports) {
       if ('string' !== typeof args[0]) {
         // anything else let's inspect with %O
         args.unshift('%O');
-      }
+      } // apply any `formatters` transformations
 
-      // apply any `formatters` transformations
+
       var index = 0;
       args[0] = args[0].replace(/%([a-zA-Z%])/g, function (match, format) {
         // if we encounter an escaped % then don't increase the array index
         if (match === '%%') return match;
         index++;
         var formatter = exports.formatters[format];
+
         if ('function' === typeof formatter) {
           var val = args[index];
-          match = formatter.call(self, val);
+          match = formatter.call(self, val); // now we need to remove `args[index]` since it's inlined in the `format`
 
-          // now we need to remove `args[index]` since it's inlined in the `format`
           args.splice(index, 1);
           index--;
         }
+
         return match;
-      });
+      }); // apply env-specific formatting (colors, etc.)
 
-      // apply env-specific formatting (colors, etc.)
       exports.formatArgs.call(self, args);
-
       var logFn = debug.log || exports.log || console.log.bind(console);
       logFn.apply(self, args);
     }
@@ -952,16 +1068,14 @@ var debug = createCommonjsModule(function (module, exports) {
     debug.namespace = namespace;
     debug.enabled = exports.enabled(namespace);
     debug.useColors = exports.useColors();
-    debug.color = selectColor(namespace);
+    debug.color = selectColor(namespace); // env-specific initialization logic for debug instances
 
-    // env-specific initialization logic for debug instances
     if ('function' === typeof exports.init) {
       exports.init(debug);
     }
 
     return debug;
   }
-
   /**
    * Enables a debug mode by namespaces. This can include modes
    * separated by a colon and wildcards.
@@ -970,18 +1084,19 @@ var debug = createCommonjsModule(function (module, exports) {
    * @api public
    */
 
+
   function enable(namespaces) {
     exports.save(namespaces);
-
     exports.names = [];
     exports.skips = [];
-
     var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
     var len = split.length;
 
     for (var i = 0; i < len; i++) {
       if (!split[i]) continue; // ignore empty strings
+
       namespaces = split[i].replace(/\*/g, '.*?');
+
       if (namespaces[0] === '-') {
         exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
       } else {
@@ -989,17 +1104,16 @@ var debug = createCommonjsModule(function (module, exports) {
       }
     }
   }
-
   /**
    * Disable debug output.
    *
    * @api public
    */
 
+
   function disable() {
     exports.enable('');
   }
-
   /**
    * Returns true if the given mode name is enabled, false otherwise.
    *
@@ -1008,21 +1122,24 @@ var debug = createCommonjsModule(function (module, exports) {
    * @api public
    */
 
+
   function enabled(name) {
     var i, len;
+
     for (i = 0, len = exports.skips.length; i < len; i++) {
       if (exports.skips[i].test(name)) {
         return false;
       }
     }
+
     for (i = 0, len = exports.names.length; i < len; i++) {
       if (exports.names[i].test(name)) {
         return true;
       }
     }
+
     return false;
   }
-
   /**
    * Coerce `val`.
    *
@@ -1030,6 +1147,7 @@ var debug = createCommonjsModule(function (module, exports) {
    * @return {Mixed}
    * @api private
    */
+
 
   function coerce(val) {
     if (val instanceof Error) return val.stack || val.message;
@@ -1051,7 +1169,6 @@ var browser = createCommonjsModule(function (module, exports) {
    *
    * Expose `debug()` as the module.
    */
-
   exports = module.exports = debug;
   exports.log = log;
   exports.formatArgs = formatArgs;
@@ -1059,13 +1176,11 @@ var browser = createCommonjsModule(function (module, exports) {
   exports.load = load;
   exports.useColors = useColors;
   exports.storage = 'undefined' != typeof chrome && 'undefined' != typeof chrome.storage ? chrome.storage.local : localstorage();
-
   /**
    * Colors.
    */
 
   exports.colors = ['lightseagreen', 'forestgreen', 'goldenrod', 'dodgerblue', 'darkorchid', 'crimson'];
-
   /**
    * Currently only WebKit-based Web Inspectors, Firefox >= v31,
    * and the Firebug extension (any Firefox version) are known
@@ -1080,23 +1195,20 @@ var browser = createCommonjsModule(function (module, exports) {
     // explicitly
     if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
       return true;
-    }
-
-    // is webkit? http://stackoverflow.com/a/16459606/376773
+    } // is webkit? http://stackoverflow.com/a/16459606/376773
     // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-    return typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance ||
-    // is firebug? http://stackoverflow.com/a/398120/376773
-    typeof window !== 'undefined' && window.console && (window.console.firebug || window.console.exception && window.console.table) ||
-    // is firefox >= v31?
+
+
+    return typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance || // is firebug? http://stackoverflow.com/a/398120/376773
+    typeof window !== 'undefined' && window.console && (window.console.firebug || window.console.exception && window.console.table) || // is firefox >= v31?
     // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31 ||
-    // double check webkit in userAgent just in case we are in a worker
+    typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31 || // double check webkit in userAgent just in case we are in a worker
     typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/);
   }
-
   /**
    * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
    */
+
 
   exports.formatters.j = function (v) {
     try {
@@ -1105,41 +1217,36 @@ var browser = createCommonjsModule(function (module, exports) {
       return '[UnexpectedJSONParseError]: ' + err.message;
     }
   };
-
   /**
    * Colorize log arguments if enabled.
    *
    * @api public
    */
 
+
   function formatArgs(args) {
     var useColors = this.useColors;
-
     args[0] = (useColors ? '%c' : '') + this.namespace + (useColors ? ' %c' : ' ') + args[0] + (useColors ? '%c ' : ' ') + '+' + exports.humanize(this.diff);
-
     if (!useColors) return;
-
     var c = 'color: ' + this.color;
-    args.splice(1, 0, c, 'color: inherit');
-
-    // the final "%c" is somewhat tricky, because there could be other
+    args.splice(1, 0, c, 'color: inherit'); // the final "%c" is somewhat tricky, because there could be other
     // arguments passed either before or after the %c, so we need to
     // figure out the correct index to insert the CSS into
+
     var index = 0;
     var lastC = 0;
     args[0].replace(/%[a-zA-Z%]/g, function (match) {
       if ('%%' === match) return;
       index++;
+
       if ('%c' === match) {
         // we only are interested in the *last* %c
         // (the user may have provided their own)
         lastC = index;
       }
     });
-
     args.splice(lastC, 0, c);
   }
-
   /**
    * Invokes `console.log()` when available.
    * No-op when `console.log` is not a "function".
@@ -1147,18 +1254,19 @@ var browser = createCommonjsModule(function (module, exports) {
    * @api public
    */
 
+
   function log() {
     // this hackery is required for IE8/9, where
     // the `console.log` function doesn't have 'apply'
-    return 'object' === (typeof console === 'undefined' ? 'undefined' : _typeof(console)) && console.log && Function.prototype.apply.call(console.log, console, arguments);
+    return 'object' === (typeof console === "undefined" ? "undefined" : _typeof(console)) && console.log && Function.prototype.apply.call(console.log, console, arguments);
   }
-
   /**
    * Save `namespaces`.
    *
    * @param {String} namespaces
    * @api private
    */
+
 
   function save(namespaces) {
     try {
@@ -1169,7 +1277,6 @@ var browser = createCommonjsModule(function (module, exports) {
       }
     } catch (e) {}
   }
-
   /**
    * Load `namespaces`.
    *
@@ -1177,26 +1284,27 @@ var browser = createCommonjsModule(function (module, exports) {
    * @api private
    */
 
+
   function load() {
     var r;
+
     try {
       r = exports.storage.debug;
-    } catch (e) {}
+    } catch (e) {} // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
 
-    // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+
     if (!r && typeof process !== 'undefined' && 'env' in process) {
       r = process.env.DEBUG;
     }
 
     return r;
   }
-
   /**
    * Enable namespaces listed in `localStorage.debug` initially.
    */
 
-  exports.enable(load());
 
+  exports.enable(load());
   /**
    * Localstorage attempts to return the localstorage.
    *
@@ -1223,7 +1331,6 @@ var browser_6 = browser.storage;
 var browser_7 = browser.colors;
 
 var Debug = createCommonjsModule(function (module) {
-
   /*
    * adonis-websocket-client
    *
@@ -1235,7 +1342,9 @@ var Debug = createCommonjsModule(function (module) {
 
   if (process.env.NODE_ENV !== 'production') {
     var _Debug = browser;
+
     _Debug.enable('adonis:*');
+
     module.exports = _Debug('adonis:websocket');
   } else {
     module.exports = function () {};
@@ -1250,9 +1359,11 @@ var Debug = createCommonjsModule(function (module) {
  * @class Socket
  */
 
-var Socket = function () {
+var Socket =
+/*#__PURE__*/
+function () {
   function Socket(topic, connection) {
-    classCallCheck(this, Socket);
+    _classCallCheck(this, Socket);
 
     this.topic = topic;
     this.connection = connection;
@@ -1260,7 +1371,6 @@ var Socket = function () {
     this._state = 'pending';
     this._emitBuffer = [];
   }
-
   /**
    * Socket state
    *
@@ -1270,9 +1380,8 @@ var Socket = function () {
    */
 
 
-  createClass(Socket, [{
-    key: 'joinAck',
-
+  _createClass(Socket, [{
+    key: "joinAck",
 
     /**
      * Called when subscription is confirmed by the
@@ -1291,16 +1400,17 @@ var Socket = function () {
       if (process.env.NODE_ENV !== 'production') {
         Debug('clearing emit buffer for %s topic after subscription ack', this.topic);
       }
-
       /**
        * Process queued events
        */
+
+
       this._emitBuffer.forEach(function (buf) {
         return _this.emit(buf.event, buf.data);
       });
+
       this._emitBuffer = [];
     }
-
     /**
      * Called when subscription is rejected by the server
      *
@@ -1312,13 +1422,12 @@ var Socket = function () {
      */
 
   }, {
-    key: 'joinError',
+    key: "joinError",
     value: function joinError(packet) {
       this.state = 'error';
       this.emitter.emit('error', packet);
       this.serverClose();
     }
-
     /**
      * Called when subscription close is acknowledged
      * by the server
@@ -1329,12 +1438,11 @@ var Socket = function () {
      */
 
   }, {
-    key: 'leaveAck',
+    key: "leaveAck",
     value: function leaveAck() {
       this.state = 'closed';
       this.serverClose();
     }
-
     /**
      * This method is invoked, when server rejects to close
      * the subscription. The state of the socket should not
@@ -1348,12 +1456,12 @@ var Socket = function () {
      */
 
   }, {
-    key: 'leaveError',
+    key: "leaveError",
     value: function leaveError(packet) {
       this.emitter.emit('leaveError', packet);
     }
-
     /* istanbul-ignore */
+
     /**
      * Add an event listener
      *
@@ -1361,14 +1469,14 @@ var Socket = function () {
      */
 
   }, {
-    key: 'on',
+    key: "on",
     value: function on() {
-      var _emitter;
+      var _this$emitter;
 
-      return (_emitter = this.emitter).on.apply(_emitter, arguments);
+      return (_this$emitter = this.emitter).on.apply(_this$emitter, arguments);
     }
-
     /* istanbul-ignore */
+
     /**
      * Add an event listener for once only
      *
@@ -1376,14 +1484,14 @@ var Socket = function () {
      */
 
   }, {
-    key: 'once',
+    key: "once",
     value: function once() {
-      var _emitter2;
+      var _this$emitter2;
 
-      (_emitter2 = this.emitter).once.apply(_emitter2, arguments);
+      (_this$emitter2 = this.emitter).once.apply(_this$emitter2, arguments);
     }
-
     /* istanbul-ignore */
+
     /**
      * Remove event listener(s)
      *
@@ -1391,13 +1499,12 @@ var Socket = function () {
      */
 
   }, {
-    key: 'off',
+    key: "off",
     value: function off() {
-      var _emitter3;
+      var _this$emitter3;
 
-      (_emitter3 = this.emitter).off.apply(_emitter3, arguments);
+      (_this$emitter3 = this.emitter).off.apply(_this$emitter3, arguments);
     }
-
     /**
      * Emit message on the subscription
      *
@@ -1410,16 +1517,19 @@ var Socket = function () {
      */
 
   }, {
-    key: 'emit',
+    key: "emit",
     value: function emit(event, data) {
       if (this.state === 'pending') {
-        this._emitBuffer.push({ event: event, data: data });
+        this._emitBuffer.push({
+          event: event,
+          data: data
+        });
+
         return;
       }
 
       this.connection.sendEvent(this.topic, event, data);
     }
-
     /**
      * Closes the connection and removes all existing
      * listeners
@@ -1430,19 +1540,20 @@ var Socket = function () {
      */
 
   }, {
-    key: 'serverClose',
+    key: "serverClose",
     value: function serverClose() {
       var _this2 = this;
 
       return this.emitter.emit('close', this).then(function () {
         _this2._emitBuffer = [];
+
         _this2.emitter.clearListeners();
-      }).catch(function () {
+      })["catch"](function () {
         _this2._emitBuffer = [];
+
         _this2.emitter.clearListeners();
       });
     }
-
     /**
      * Invoked when a new event is received from the server
      *
@@ -1455,14 +1566,12 @@ var Socket = function () {
      */
 
   }, {
-    key: 'serverEvent',
+    key: "serverEvent",
     value: function serverEvent(_ref) {
       var event = _ref.event,
           data = _ref.data;
-
       this.emitter.emit(event, data);
     }
-
     /**
      * Received error on connection
      *
@@ -1472,11 +1581,10 @@ var Socket = function () {
      */
 
   }, {
-    key: 'serverError',
+    key: "serverError",
     value: function serverError() {
       this.state = 'error';
     }
-
     /**
      * Sends the request on server to close the subscription, we
      * have to wait for acknowledgment too
@@ -1487,15 +1595,16 @@ var Socket = function () {
      */
 
   }, {
-    key: 'close',
+    key: "close",
     value: function close() {
       this.state = 'closing';
+
       if (process.env.NODE_ENV !== 'production') {
         Debug('closing subscription for %s topic with server', this.topic);
       }
+
       this.connection.sendPacket(wsp_browser.leavePacket(this.topic));
     }
-
     /**
      * Forcefully terminating the subscription
      *
@@ -1505,27 +1614,26 @@ var Socket = function () {
      */
 
   }, {
-    key: 'terminate',
+    key: "terminate",
     value: function terminate() {
       this.leaveAck();
     }
   }, {
-    key: 'state',
-    get: function get$$1() {
+    key: "state",
+    get: function get() {
       return this._state;
     }
-
     /**
      * Update socket state
      */
     ,
-    set: function set$$1(state) {
+    set: function set(state) {
       if (!this.constructor.states.indexOf(state) === -1) {
-        throw new Error(state + ' is not a valid socket state');
+        throw new Error("".concat(state, " is not a valid socket state"));
       }
+
       this._state = state;
     }
-
     /**
      * A static array of internal states
      *
@@ -1535,11 +1643,12 @@ var Socket = function () {
      */
 
   }], [{
-    key: 'states',
-    get: function get$$1() {
+    key: "states",
+    get: function get() {
       return ['pending', 'open', 'closed', 'closing', 'error'];
     }
   }]);
+
   return Socket;
 }();
 
@@ -1558,6 +1667,7 @@ var Socket = function () {
 
 var JsonEncoder = {
   name: 'json',
+
   /**
    * Encode a value by stringifying it
    *
@@ -1576,9 +1686,9 @@ var JsonEncoder = {
     } catch (error) {
       return callback(error);
     }
+
     callback(null, encoded);
   },
-
 
   /**
    * Decode value by parsing it
@@ -1598,6 +1708,7 @@ var JsonEncoder = {
     } catch (error) {
       return callback(error);
     }
+
     callback(null, decoded);
   }
 };
@@ -1608,16 +1719,16 @@ var JsonEncoder = {
  * @returns {String}
  *
  */
-var wsProtocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws';
 
+var wsProtocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws';
 /**
  * Returns the predicted host if is using in frontend
  *
  * @returns {String}
  *
  */
-var wsHost = typeof window !== 'undefined' ? window.location.host : '127.0.0.1';
 
+var wsHost = typeof window !== 'undefined' ? window.location.host : '127.0.0.1';
 /**
  * Connection class is used to make a TCP/Socket connection
  * with the server. It relies on Native Websocket browser
@@ -1629,21 +1740,24 @@ var wsHost = typeof window !== 'undefined' ? window.location.host : '127.0.0.1';
  * @param {Object} options
  */
 
-var Connection = function (_Emitter) {
-  inherits(Connection, _Emitter);
+var Connection =
+/*#__PURE__*/
+function (_Emitter) {
+  _inherits(Connection, _Emitter);
 
   function Connection(url, options) {
-    classCallCheck(this, Connection);
+    var _this;
 
-    var _this = possibleConstructorReturn(this, (Connection.__proto__ || Object.getPrototypeOf(Connection)).call(this));
+    _classCallCheck(this, Connection);
 
-    url = url || wsProtocol + '://' + wsHost;
-
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Connection).call(this));
+    url = url || "".concat(wsProtocol, "://").concat(wsHost);
     /**
      * Connection options
      *
      * @type {Object}
      */
+
     _this.options = _extends({
       path: 'adonis-ws',
       reconnection: true,
@@ -1657,78 +1771,78 @@ var Connection = function (_Emitter) {
     if (process.env.NODE_ENV !== 'production') {
       Debug('connection options %o', _this.options);
     }
-
     /**
      * The state connection is in
      *
      * @type {String}
      */
-    _this._connectionState = 'idle';
 
+
+    _this._connectionState = 'idle';
     /**
      * Number of reconnection attempts being made
      *
      * @type {Number}
      */
-    _this._reconnectionAttempts = 0;
 
+    _this._reconnectionAttempts = 0;
     /**
      * All packets are sent in sequence to the server. So we need to
      * maintain a queue and process one at a time
      *
      * @type {Array}
      */
-    _this._packetsQueue = [];
 
+    _this._packetsQueue = [];
     /**
      * Whether or not the queue is in process
      *
      * @type {Boolean}
      */
-    _this._processingQueue = false;
 
+    _this._processingQueue = false;
     /**
      * As per Adonis protocol, the client must ping
      * the server after x interval
      *
      * @type {Timer}
      */
-    _this._pingTimer = null;
 
+    _this._pingTimer = null;
     /**
      * Extended query is merged with the query params
      * user pass
      *
      * @type {Object}
      */
-    _this._extendedQuery = {};
 
+    _this._extendedQuery = {};
     /**
      * Base URL for the websocket connection
      *
      * @type {String}
      */
-    _this._url = url.replace(/\/$/, '') + '/' + _this.options.path;
 
+    _this._url = "".concat(url.replace(/\/$/, ''), "/").concat(_this.options.path);
     /**
      * Subscriptions for a single connection
      *
      * @type {Object}
      */
-    _this.subscriptions = {};
 
+    _this.subscriptions = {};
     /**
      * Handler called when `close` is emitted from the
      * subscription
      */
+
     _this.removeSubscription = function (_ref) {
       var topic = _ref.topic;
-
       delete _this.subscriptions[topic];
     };
+
     return _this;
   }
-
   /**
    * Computed value to decide, whether or not to reconnect
    *
@@ -1738,9 +1852,8 @@ var Connection = function (_Emitter) {
    */
 
 
-  createClass(Connection, [{
-    key: '_cleanup',
-
+  _createClass(Connection, [{
+    key: "_cleanup",
 
     /**
      * Clean references
@@ -1756,7 +1869,6 @@ var Connection = function (_Emitter) {
       this.ws = null;
       this._pingTimer = null;
     }
-
     /**
      * Calls a callback passing subscription to it
      *
@@ -1770,7 +1882,7 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_subscriptionsIterator',
+    key: "_subscriptionsIterator",
     value: function _subscriptionsIterator(callback) {
       var _this2 = this;
 
@@ -1778,7 +1890,6 @@ var Connection = function (_Emitter) {
         return callback(_this2.subscriptions[sub], sub);
       });
     }
-
     /**
      * Calls the callback when there is a subscription for
      * the topic mentioned in the packet
@@ -1794,7 +1905,7 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_ensureSubscription',
+    key: "_ensureSubscription",
     value: function _ensureSubscription(packet, cb) {
       var socket = this.getSubscription(packet.d.topic);
 
@@ -1802,12 +1913,12 @@ var Connection = function (_Emitter) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('cannot consume packet since %s topic has no active subscription %j', packet.d.topic, packet);
         }
+
         return;
       }
 
       cb(socket, packet);
     }
-
     /**
      * Process the packets queue by sending one packet at a time
      *
@@ -1819,41 +1930,44 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_processQueue',
+    key: "_processQueue",
     value: function _processQueue() {
       var _this3 = this;
 
       if (this._processingQueue || !this._packetsQueue.length) {
         return;
       }
-
       /**
        * Turn on the processing flag
        *
        * @type {Boolean}
        */
-      this._processingQueue = true;
 
+
+      this._processingQueue = true;
       this.options.encoder.encode(this._packetsQueue.shift(), function (error, payload) {
         if (error) {
           if (process.env.NODE_ENV !== 'production') {
             Debug('encode error %j', error);
           }
+
           return;
         }
-        _this3.write(payload);
 
+        _this3.write(payload);
         /**
          * Turn off the processing flag and re call the processQueue to send
          * the next message
          *
          * @type {Boolean}
          */
+
+
         _this3._processingQueue = false;
+
         _this3._processQueue();
       });
     }
-
     /**
      * As soon as connection is ready, we start listening
      * for new message
@@ -1866,13 +1980,12 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_onOpen',
+    key: "_onOpen",
     value: function _onOpen() {
       if (process.env.NODE_ENV !== 'production') {
         Debug('opened');
       }
     }
-
     /**
      * When received connection error
      *
@@ -1886,7 +1999,7 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_onError',
+    key: "_onError",
     value: function _onError(event) {
       if (process.env.NODE_ENV !== 'production') {
         Debug('error %O', event);
@@ -1895,9 +2008,9 @@ var Connection = function (_Emitter) {
       this._subscriptionsIterator(function (subscription) {
         return subscription.serverError();
       });
+
       this.emit('error', event);
     }
-
     /**
      * Initiates reconnect with the server by moving
      * all subscriptions to pending state
@@ -1910,20 +2023,18 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_reconnect',
+    key: "_reconnect",
     value: function _reconnect() {
       var _this4 = this;
 
       this._reconnectionAttempts++;
-
       this.emit('reconnect', this._reconnectionAttempts);
-
       setTimeout(function () {
         _this4._connectionState = 'reconnect';
+
         _this4.connect();
       }, this.options.reconnectionDelay * this._reconnectionAttempts);
     }
-
     /**
      * When connection closes
      *
@@ -1937,7 +2048,7 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_onClose',
+    key: "_onClose",
     value: function _onClose(event) {
       var _this5 = this;
 
@@ -1946,21 +2057,21 @@ var Connection = function (_Emitter) {
       }
 
       this._cleanup();
-
       /**
        * Force subscriptions to terminate
        */
+
+
       this._subscriptionsIterator(function (subscription) {
         return subscription.terminate();
       });
 
       this.emit('close', this).then(function () {
         _this5.shouldReconnect ? _this5._reconnect() : _this5.clearListeners();
-      }).catch(function () {
+      })["catch"](function () {
         _this5.shouldReconnect ? _this5._reconnect() : _this5.clearListeners();
       });
     }
-
     /**
      * When a new message was received
      *
@@ -1974,7 +2085,7 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_onMessage',
+    key: "_onMessage",
     value: function _onMessage(event) {
       var _this6 = this;
 
@@ -1983,12 +2094,13 @@ var Connection = function (_Emitter) {
           if (process.env.NODE_ENV !== 'production') {
             Debug('packet dropped, decode error %o', decodeError);
           }
+
           return;
         }
+
         _this6._handleMessage(packet);
       });
     }
-
     /**
      * Handles the message packet based upon it's type
      *
@@ -2002,13 +2114,15 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_handleMessage',
+    key: "_handleMessage",
     value: function _handleMessage(packet) {
       if (wsp_browser.isOpenPacket(packet)) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('open packet');
         }
+
         this._handleOpen(packet);
+
         return;
       }
 
@@ -2016,7 +2130,9 @@ var Connection = function (_Emitter) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('join ack packet');
         }
+
         this._handleJoinAck(packet);
+
         return;
       }
 
@@ -2024,7 +2140,9 @@ var Connection = function (_Emitter) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('join error packet');
         }
+
         this._handleJoinError(packet);
+
         return;
       }
 
@@ -2032,7 +2150,9 @@ var Connection = function (_Emitter) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('leave ack packet');
         }
+
         this._handleLeaveAck(packet);
+
         return;
       }
 
@@ -2040,7 +2160,9 @@ var Connection = function (_Emitter) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('leave error packet');
         }
+
         this._handleLeaveError(packet);
+
         return;
       }
 
@@ -2048,7 +2170,9 @@ var Connection = function (_Emitter) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('leave packet');
         }
+
         this._handleServerLeave(packet);
+
         return;
       }
 
@@ -2056,7 +2180,9 @@ var Connection = function (_Emitter) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('event packet');
         }
+
         this._handleEvent(packet);
+
         return;
       }
 
@@ -2064,6 +2190,7 @@ var Connection = function (_Emitter) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('pong packet');
         }
+
         return;
       }
 
@@ -2071,7 +2198,6 @@ var Connection = function (_Emitter) {
         Debug('invalid packet type %d', packet.t);
       }
     }
-
     /**
      * Emits the open emit and send subscription packets
      * for pre-existing subscriptions
@@ -2086,24 +2212,24 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_handleOpen',
+    key: "_handleOpen",
     value: function _handleOpen(packet) {
       var _this7 = this;
 
       this._connectionState = 'open';
       this.emit('open', packet.d);
-
       /**
        * Setup a timer to ping the server, telling
        * client is awake
        */
+
       this._pingTimer = setInterval(function () {
         _this7.sendPacket(wsp_browser.pingPacket());
       }, packet.d.clientInterval);
-
       /**
        * Sending packets to make pending subscriptions
        */
+
       if (process.env.NODE_ENV !== 'production') {
         Debug('processing pre connection subscriptions %o', Object.keys(this.subscriptions));
       }
@@ -2112,7 +2238,6 @@ var Connection = function (_Emitter) {
         _this7._sendSubscriptionPacket(subscription.topic);
       });
     }
-
     /**
      * Handles the join acknowledgement for a subscription
      *
@@ -2126,13 +2251,12 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_handleJoinAck',
+    key: "_handleJoinAck",
     value: function _handleJoinAck(packet) {
       this._ensureSubscription(packet, function (socket) {
         return socket.joinAck();
       });
     }
-
     /**
      * Handles the join error for a subscription
      *
@@ -2146,13 +2270,12 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_handleJoinError',
+    key: "_handleJoinError",
     value: function _handleJoinError(packet) {
       this._ensureSubscription(packet, function (socket, packet) {
         return socket.joinError(packet.d);
       });
     }
-
     /**
      * Acknowledges the subscription leave
      *
@@ -2166,13 +2289,12 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_handleLeaveAck',
+    key: "_handleLeaveAck",
     value: function _handleLeaveAck(packet) {
       this._ensureSubscription(packet, function (socket) {
         return socket.leaveAck();
       });
     }
-
     /**
      * Handles leave error for a subscription
      *
@@ -2186,13 +2308,12 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_handleLeaveError',
+    key: "_handleLeaveError",
     value: function _handleLeaveError(packet) {
       this._ensureSubscription(packet, function (socket, packet) {
         return socket.leaveError(packet.d);
       });
     }
-
     /**
      * Handles when server initiates the subscription leave
      *
@@ -2206,13 +2327,12 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_handleServerLeave',
+    key: "_handleServerLeave",
     value: function _handleServerLeave(packet) {
       this._ensureSubscription(packet, function (socket, packet) {
         return socket.leaveAck();
       });
     }
-
     /**
      * Handles the event packet for a subscription
      *
@@ -2226,13 +2346,12 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_handleEvent',
+    key: "_handleEvent",
     value: function _handleEvent(packet) {
       this._ensureSubscription(packet, function (socket, packet) {
         return socket.serverEvent(packet.d);
       });
     }
-
     /**
      * Sends the subscription packet for a given topic
      *
@@ -2246,14 +2365,14 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: '_sendSubscriptionPacket',
+    key: "_sendSubscriptionPacket",
     value: function _sendSubscriptionPacket(topic) {
       if (process.env.NODE_ENV !== 'production') {
         Debug('initiating subscription for %s topic with server', topic);
       }
+
       this.sendPacket(wsp_browser.joinPacket(topic));
     }
-
     /**
      * Instantiate the websocket connection
      *
@@ -2263,18 +2382,19 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'connect',
+    key: "connect",
     value: function connect() {
       var _this8 = this;
 
       var query = stringify(_extends({}, this.options.query, this._extendedQuery));
-      var url = query ? this._url + '?' + query : this._url;
+      var url = query ? "".concat(this._url, "?").concat(query) : this._url;
 
       if (process.env.NODE_ENV !== 'production') {
         Debug('creating socket connection on %s url', url);
       }
 
-      var WsContruct = void 0;
+      var WsContruct;
+
       if (this.wsInstance) {
         WsContruct = this.wsInstance;
       } else {
@@ -2282,22 +2402,25 @@ var Connection = function (_Emitter) {
       }
 
       this.ws = new WsContruct(url);
+
       this.ws.onclose = function (event) {
         return _this8._onClose(event);
       };
+
       this.ws.onerror = function (event) {
         return _this8._onError(event);
       };
+
       this.ws.onopen = function (event) {
         return _this8._onOpen(event);
       };
+
       this.ws.onmessage = function (event) {
         return _this8._onMessage(event);
       };
 
       return this;
     }
-
     /**
      * Writes the payload on the open connection
      *
@@ -2309,23 +2432,24 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'write',
+    key: "write",
     value: function write(payload) {
       if (this.wsInstance) {
         var _wsState = this.wsInstance.OPEN || false;
       } else {
         var _wsState2 = window.WebSocket.OPEN;
       }
+
       if (this.ws.readyState !== wsState) {
         if (process.env.NODE_ENV !== 'production') {
           Debug('connection is not in open state, current state %s', this.ws.readyState);
         }
+
         return;
       }
 
       this.ws.send(payload);
     }
-
     /**
      * Sends a packet by encoding it first
      *
@@ -2337,12 +2461,12 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'sendPacket',
+    key: "sendPacket",
     value: function sendPacket(packet) {
       this._packetsQueue.push(packet);
+
       this._processQueue();
     }
-
     /**
      * Returns the subscription instance for a given topic
      *
@@ -2354,11 +2478,10 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'getSubscription',
+    key: "getSubscription",
     value: function getSubscription(topic) {
       return this.subscriptions[topic];
     }
-
     /**
      * Returns a boolean telling, whether connection has
      * a subscription for a given topic or not
@@ -2371,11 +2494,10 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'hasSubcription',
+    key: "hasSubcription",
     value: function hasSubcription(topic) {
       return !!this.getSubscription(topic);
     }
-
     /**
      * Create a new subscription with the server
      *
@@ -2387,7 +2509,7 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'subscribe',
+    key: "subscribe",
     value: function subscribe(topic) {
       if (!topic || typeof topic !== 'string') {
         throw new Error('subscribe method expects topic to be a valid string');
@@ -2399,23 +2521,22 @@ var Connection = function (_Emitter) {
 
       var socket = new Socket(topic, this);
       socket.on('close', this.removeSubscription);
-
       /**
        * Storing reference to the socket
        */
-      this.subscriptions[topic] = socket;
 
+      this.subscriptions[topic] = socket;
       /**
        * Sending join request to the server, the subscription will
        * be considered ready, once server acknowledges it
        */
+
       if (this._connectionState === 'open') {
         this._sendSubscriptionPacket(topic);
       }
 
       return socket;
     }
-
     /**
      * Sends event for a given topic
      *
@@ -2432,21 +2553,22 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'sendEvent',
+    key: "sendEvent",
     value: function sendEvent(topic, event, data) {
       if (!topic || !event) {
         throw new Error('topic and event name is required to call sendEvent method');
       }
-
       /**
        * Make sure there is an active subscription for the topic. Though server will
        * bounce the message, there is no point in hammering it
        */
-      var subscription = this.getSubscription(topic);
-      if (!subscription) {
-        throw new Error('There is no active subscription for ' + topic + ' topic');
-      }
 
+
+      var subscription = this.getSubscription(topic);
+
+      if (!subscription) {
+        throw new Error("There is no active subscription for ".concat(topic, " topic"));
+      }
       /**
        * If subscription state is not open, then we should not publish
        * messages.
@@ -2455,8 +2577,10 @@ var Connection = function (_Emitter) {
        * is coz we don't want anyone to use the connection object
        * and send packets, even when subscription is closed.
        */
+
+
       if (subscription.state !== 'open') {
-        throw new Error('Cannot emit since subscription socket is in ' + this.state + ' state');
+        throw new Error("Cannot emit since subscription socket is in ".concat(this.state, " state"));
       }
 
       if (process.env.NODE_ENV !== 'production') {
@@ -2465,7 +2589,6 @@ var Connection = function (_Emitter) {
 
       this.sendPacket(wsp_browser.eventPacket(topic, event, data));
     }
-
     /**
      * Use JWT token to authenticate the user
      *
@@ -2477,12 +2600,11 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'withJwtToken',
+    key: "withJwtToken",
     value: function withJwtToken(token) {
       this._extendedQuery.token = token;
       return this;
     }
-
     /**
      * Use basic auth credentials to login the user
      *
@@ -2495,16 +2617,16 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'withBasicAuth',
+    key: "withBasicAuth",
     value: function withBasicAuth(username, password) {
       if (typeof window !== "undefined") {
-        this._extendedQuery.basic = window.btoa(username + ':' + password);
+        this._extendedQuery.basic = window.btoa("".concat(username, ":").concat(password));
       } else {
-        this._extendedQuery.basic = Buffer.from(username + ':' + password).toString('base64');
+        this._extendedQuery.basic = Buffer.from("".concat(username, ":").concat(password)).toString('base64');
       }
+
       return this;
     }
-
     /**
      * Use personal API token to authenticate the user
      *
@@ -2516,12 +2638,11 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'withApiToken',
+    key: "withApiToken",
     value: function withApiToken(token) {
       this._extendedQuery.token = token;
       return this;
     }
-
     /**
      * Forcefully close the connection
      *
@@ -2531,17 +2652,18 @@ var Connection = function (_Emitter) {
      */
 
   }, {
-    key: 'close',
+    key: "close",
     value: function close() {
       this._connectionState = 'terminated';
       this.ws.close();
     }
   }, {
-    key: 'shouldReconnect',
-    get: function get$$1() {
+    key: "shouldReconnect",
+    get: function get() {
       return this._connectionState !== 'terminated' && this.options.reconnection && this.options.reconnectionAttempts > this._reconnectionAttempts;
     }
   }]);
+
   return Connection;
 }(emittery);
 
