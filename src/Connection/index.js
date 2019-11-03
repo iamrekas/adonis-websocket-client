@@ -25,6 +25,14 @@ import JsonEncoder from '../JsonEncoder/index.js'
 const wsProtocol = (typeof window !== 'undefined' && window.location.protocol === 'https:') ? 'wss' : 'ws'
 
 /**
+ * Returns the predicted host if is using in frontend
+ *
+ * @returns {String}
+ *
+ */
+const wsHost = (typeof window !== 'undefined') ? window.location.host : '127.0.0.1'
+
+/**
  * Connection class is used to make a TCP/Socket connection
  * with the server. It relies on Native Websocket browser
  * support.
@@ -38,7 +46,7 @@ export default class Connection extends Emitter {
   constructor (url, options) {
     super()
 
-    url = url || `${wsProtocol}://${window.location.host}`
+    url = url || `${wsProtocol}://${wsHost}`
 
     /**
      * Connection options
@@ -51,7 +59,8 @@ export default class Connection extends Emitter {
       reconnectionAttempts: 10,
       reconnectionDelay: 1000,
       query: null,
-      encoder: JsonEncoder
+      encoder: JsonEncoder,
+      wsInstance: null
     }, options)
 
     if (process.env.NODE_ENV !== 'production') {
@@ -588,7 +597,14 @@ export default class Connection extends Emitter {
       debug('creating socket connection on %s url', url)
     }
 
-    this.ws = new window.WebSocket(url)
+    let WsContruct
+    if (this.wsInstance) {
+      WsContruct = this.wsInstance
+    }else{
+      WsContruct = window.WebSocket
+    }
+	
+	this.ws = new WsContruct(url)
     this.ws.onclose = (event) => this._onClose(event)
     this.ws.onerror = (event) => this._onError(event)
     this.ws.onopen = (event) => this._onOpen(event)
@@ -607,7 +623,12 @@ export default class Connection extends Emitter {
    * @return {void}
    */
   write (payload) {
-    if (this.ws.readyState !== window.WebSocket.OPEN) {
+	if (this.wsInstance) {
+		const wsState = this.wsInstance.OPEN || false
+	}else{
+		const wsState = window.WebSocket.OPEN
+	}
+    if (this.ws.readyState !== wsState) {
       if (process.env.NODE_ENV !== 'production') {
         debug('connection is not in open state, current state %s', this.ws.readyState)
       }
@@ -767,7 +788,11 @@ export default class Connection extends Emitter {
    * @chainable
    */
   withBasicAuth (username, password) {
-    this._extendedQuery.basic = window.btoa(`${username}:${password}`)
+	if (typeof window !== "undefined") {
+		this._extendedQuery.basic = window.btoa(`${username}:${password}`)
+	}else{
+		this._extendedQuery.basic = Buffer.from(`${username}:${password}`).toString('base64')
+	}
     return this
   }
 
