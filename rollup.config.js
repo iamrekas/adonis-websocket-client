@@ -99,6 +99,24 @@ function esBuild () {
   }
 }
 
+/**
+ * CommonJS build
+ *
+ * @method esBuild
+ *
+ * @return {Object}
+ */
+function cjsBuild () {
+  return {
+    input: 'index.js',
+    output: {
+      file: pkg.cjs,
+      format: 'cjs'
+    },
+    plugins: basePlugins.concat([pluginBabel])
+  }
+}
+
 const build = process.argv.slice(3)[0]
 
 if (build === '--umd') {
@@ -107,4 +125,6 @@ if (build === '--umd') {
   module.exports = umdProductionBuild()
 } else if (build === '--esm') {
   module.exports = esBuild()
+} else if (build === '--cjs') {
+  module.exports = cjsBuild()
 }
