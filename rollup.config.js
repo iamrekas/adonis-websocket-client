@@ -17,6 +17,23 @@ const pluginBabel = require('rollup-plugin-babel')({
   ]
 })
 
+const pluginBabelCjs = require('rollup-plugin-babel')({
+  runtimeHelpers: true,
+  ignore: ["/node_modules\/(!emittery).*/"],
+  plugins: ['@babel/plugin-external-helpers', '@babel/plugin-transform-object-assign', '@babel/plugin-transform-runtime'],
+  presets: [
+    [
+      '@babel/env',
+      {
+        modules: false,
+        targets: {
+          browsers: ['last 4 versions', 'safari >= 7', 'ie 11']
+        }
+      }
+    ]
+  ]
+})
+
 const pluginBabelEs = require('rollup-plugin-babel')({
   ignore: /node_modules\/(!emittery).*/,
   plugins: ['external-helpers', 'transform-object-assign'],
@@ -113,7 +130,7 @@ function cjsBuild () {
       file: pkg.cjs,
       format: 'cjs'
     },
-    plugins: basePlugins.concat([pluginBabel])
+    plugins: basePlugins.concat([pluginBabelCjs])
   }
 }
 

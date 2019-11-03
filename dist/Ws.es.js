@@ -1,5 +1,3 @@
-'use strict';
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -2551,4 +2549,4 @@ function index (url, options) {
   return new Connection(url, options);
 }
 
-module.exports = index;
+export default index;
