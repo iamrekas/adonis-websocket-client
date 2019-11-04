@@ -1200,9 +1200,7 @@ var Debug = createCommonjsModule(function (module) {
   */
 
   if (process.env.NODE_ENV !== 'production') {
-    var _Debug = browser;
-
-    _Debug.enable('adonis:*');
+    var _Debug = browser; // Debug.enable('adonis:*')
 
     module.exports = _Debug('adonis:websocket');
   } else {
@@ -2254,10 +2252,13 @@ function (_Emitter) {
 
       var WsContruct;
 
-      if (this.wsInstance) {
-        WsContruct = this.wsInstance;
-      } else {
+      if (typeof this.options.wsInstance !== "undefined") {
+        WsContruct = this.options.wsInstance;
+      } else if (typeof window !== "undefined") {
         WsContruct = window.WebSocket;
+      } else {
+        Debug('Failed to create WS Instance');
+        return this;
       }
 
       this.ws = new WsContruct(url);
@@ -2293,10 +2294,15 @@ function (_Emitter) {
   }, {
     key: "write",
     value: function write(payload) {
-      if (this.wsInstance) {
-        var _wsState = this.wsInstance.OPEN || false;
+      var wsState;
+
+      if (typeof this.options.wsInstance !== "undefined") {
+        wsState = this.options.wsInstance.OPEN || false;
+      } else if (typeof window !== "undefined") {
+        wsState = window.WebSocket.OPEN;
       } else {
-        var _wsState2 = window.WebSocket.OPEN;
+        Debug('Failed to get WS Instance state');
+        return;
       }
 
       if (this.ws.readyState !== wsState) {

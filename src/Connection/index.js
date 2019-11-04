@@ -598,11 +598,14 @@ export default class Connection extends Emitter {
     }
 
     let WsContruct
-    if (this.wsInstance) {
-      WsContruct = this.wsInstance
-    }else{
-      WsContruct = window.WebSocket
-    }
+	if (typeof this.options.wsInstance !== "undefined") {
+	  WsContruct = this.options.wsInstance
+	} else if (typeof window !== "undefined") {
+	  WsContruct = window.WebSocket
+	} else {
+	  debug('Failed to create WS Instance')
+	  return this
+	}
 	
 	this.ws = new WsContruct(url)
     this.ws.onclose = (event) => this._onClose(event)
@@ -623,10 +626,14 @@ export default class Connection extends Emitter {
    * @return {void}
    */
   write (payload) {
-	if (this.wsInstance) {
-		const wsState = this.wsInstance.OPEN || false
-	}else{
-		const wsState = window.WebSocket.OPEN
+	let wsState
+	if (typeof this.options.wsInstance !== "undefined") {
+	  wsState = this.options.wsInstance.OPEN || false
+	} else if (typeof window !== "undefined") {
+	  wsState = window.WebSocket.OPEN
+	} else {
+	  debug('Failed to get WS Instance state')
+	  return
 	}
     if (this.ws.readyState !== wsState) {
       if (process.env.NODE_ENV !== 'production') {
